@@ -1,0 +1,28 @@
+server {
+	listen 80 default_server;
+	listen 443 ssl;
+
+	server_name _;
+
+	ssl_certificate /config/keys/cert.crt;
+	ssl_certificate_key /config/keys/cert.key;
+
+    client_max_body_size 10M;
+
+    keepalive_timeout 5;
+
+    location /static {
+        # path for static files
+        root /app/healthchecks;
+    }
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Ssl on;
+        proxy_redirect off;
+
+        proxy_pass http://localhost:8000;
+    }
+
+}

@@ -1,4 +1,4 @@
-FROM lsiobase/alpine:3.8
+FROM lsiobase/alpine.nginx:3.8
 
 # set version label
 ARG BUILD_DATE
@@ -22,6 +22,7 @@ RUN \
 	zlib-dev && \
  echo "**** install runtime packages ****" && \
  apk add --no-cache \
+ 	py-gunicorn \
 	python3 && \
  echo "**** install healthchecks ****" && \
  mkdir -p /app/healthchecks && \
